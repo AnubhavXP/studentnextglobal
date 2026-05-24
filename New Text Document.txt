@@ -1,0 +1,54 @@
+   <form class="contact-form" action="https://formsubmit.co/ff321c5b2f3da62cf8f37bbf2f8fc870" method="POST">
+                  <!-- CONFIGURATION LINES -->
+    <input type="hidden" name="_subject" value="New Inquiry - Studentnext Global">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <!-- THIS LINE SENDS THEM TO YOUR CUSTOM THANK YOU PAGE  -->
+    <input type="hidden" name="_next" value="./thankyou.html">
+
+    <!-- YOUR EXISTING FORM FIELDS (Keep these exactly as they are) -->
+    <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+    </div>
+    
+    <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+    </div>
+    
+    <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210">
+    </div>
+    
+    <div class="form-group">
+        <label for="type">I am a *</label>
+        <select id="type" name="type" required>
+            <option value="">Select your type</option>
+            <option value="student">Prospective Student</option>
+            <option value="parent">Parent/Guardian</option>
+            <option value="university">University Representative</option>
+            <option value="partner">Educational Partner</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="interest">Area of Interest</label>
+        <select id="interest" name="interest">
+            <option value="">Select your interest</option>
+            <option value="undergraduate">Undergraduate Programs</option>
+            <option value="postgraduate">Postgraduate Programs</option>
+            <option value="phd">PhD/Research</option>
+            <option value="partnership">Institutional Partnership</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell us about your goals and how we can help..."></textarea>
+    </div>
+    
+    <button type="submit" class="btn-primary btn-block">Send Message</button>
+                </form> -->
