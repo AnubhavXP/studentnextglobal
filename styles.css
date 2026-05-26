@@ -571,6 +571,39 @@ section {
     position: relative;
 }
 
+/* Outer wrapper: Handles 3D pop/tilt, NO overflow hidden */
+.slideshow-3d-wrap {
+    perspective: 1000px;
+    cursor: pointer;
+    overflow: visible; /* Allows pop-out */
+    display: inline-block; /* Keeps layout intact */
+    transition: transform 0.2s ease;
+}
+
+/* Inner container: Handles sliding & masking */
+.slideshow-container {
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden; /* Masks sliding track only */
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    transform-style: preserve-3d;
+}
+
+.slide-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out;
+}
+
+.slide-track img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    flex-shrink: 0;
+}
 .about-image-placeholder {
     background: linear-gradient(135deg, var(--navy-dark), var(--navy-medium));
     border-radius: 20px;

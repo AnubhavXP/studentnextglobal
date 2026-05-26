@@ -82,11 +82,18 @@
     <section class="about" id="about">
         <div class="container">
             <div class="about-grid">
-                <div class="about-image">
-                    <div class="about-image-placeholder">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                </div>
+<div class="slideshow-3d-wrap">
+    <div class="slideshow-container">
+        <div class="slide-track">
+            <img src="assets/images/slide4.png" alt="0" class="slide-clone">
+            <img src="assets/images/slide1.jpeg" alt="1">
+            <img src="assets/images/slide2.png" alt="2">
+            <img src="assets/images/slide3.png" alt="3">
+            <img src="assets/images/slide4.png" alt="4">
+            <img src="assets/images/slide1.jpeg" alt="5" class="slide-clone">
+        </div>
+    </div>
+</div>
                 <div class="about-content">
                     <h3>Empowering Global Educational Excellence</h3>
                     <p>Studentnext Global is a premier education consultancy and partnership firm dedicated to bridging the gap between ambitious students and world-renowned universities across the globe.</p>
@@ -514,6 +521,7 @@
     </footer>
 
   <script>
+      // FormSubmit mail format
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -527,5 +535,119 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     fetch(this.action, { method: 'POST', body: new FormData(this) })
     .then(() => window.location.href = 'thankyou.html');
 });
+      
+      //   Slideshow & 3D Tilt
+document.addEventListener("DOMContentLoaded", function () {
+    const track = document.querySelector(".slide-track");
+    const wrap = document.querySelector(".slideshow-3d-wrap");
+    if (!track || !wrap) return;
+
+    const slides = track.querySelectorAll("img");
+    if (slides.length < 2) return;
+
+    let index = 1;
+    let timer;
+    let isSliding = false;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let rafId = null;
+
+    const maxTilt = 18;
+    const maxShift = 10;
+
+    function move(instant = false) {
+        track.style.transition = instant ? "none" : "transform 0.6s ease-in-out";
+        track.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function next() {
+        if (isSliding) return;
+        isSliding = true;
+
+        index++;
+        move();
+
+        setTimeout(() => {
+            if (index >= slides.length - 1) {
+                index = 1;
+                move(true);
+            }
+            isSliding = false;
+        }, 600);
+    }
+
+    function start() {
+        if (!timer) timer = setInterval(next, 4000);
+    }
+
+    function stop() {
+        clearInterval(timer);
+        timer = null;
+    }
+
+    function applyTilt() {
+        const moveX = (-currentX / maxTilt) * maxShift;
+        const moveY = (-currentY / maxTilt) * maxShift;
+
+        wrap.style.transform =
+            `perspective(1000px) ` +
+            `translate3d(${moveX}px, ${moveY}px, 0) ` +
+            `scale(1.06) ` +
+            `rotateX(${currentY}deg) rotateY(${currentX}deg)`;
+    }
+
+    function animateTilt() {
+        if (rafId) return;
+
+        const step = () => {
+            currentX += (targetX - currentX) * 0.12;
+            currentY += (targetY - currentY) * 0.12;
+
+            applyTilt();
+
+            if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+                rafId = requestAnimationFrame(step);
+            } else {
+                currentX = targetX;
+                currentY = targetY;
+                applyTilt();
+                rafId = null;
+            }
+        };
+
+        rafId = requestAnimationFrame(step);
+    }
+
+    wrap.style.transformOrigin = "50% 50%";
+    wrap.style.willChange = "transform";
+    wrap.style.transformStyle = "preserve-3d";
+
+    wrap.addEventListener("pointermove", function (e) {
+        const rect = wrap.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+        targetX = x * maxTilt;
+        targetY = y * maxTilt;
+
+        animateTilt();
+    });
+
+    wrap.addEventListener("pointerleave", function () {
+        targetX = 0;
+        targetY = 0;
+        animateTilt();
+        start();
+    });
+
+    wrap.addEventListener("pointerenter", stop);
+
+    move(true);
+    setTimeout(start, 100);
+});
+</script>
 </script>
 </body></html>
