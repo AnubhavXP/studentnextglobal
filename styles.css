@@ -358,76 +358,47 @@ nav.scrolled {
     font-size: 0.9rem;
     opacity: 0.8;
 }
-
 .hero-image {
+    perspective: 1200px;
     position: relative;
-    animation: fadeIn 1s ease 0.3s both;
+    overflow: visible;
 }
 
-.hero-image-placeholder {
-    background: rgba(255,255,255,0.1);
-    border-radius: 20px;
-    padding: 2rem;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
+.hero-tilt {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transform: rotateX(0deg) rotateY(0deg);
 }
 
-.globe-visual {
-    width: 100%;
-    height: 400px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 8rem;
-    color: rgba(255,255,255,0.3);
-}
-/* Allow the image to break out of the grid container */
-.hero-image {
-    overflow: visible !important;
-    position: relative;
-    z-index: 2;
-}
-
-/* Organic Blob Shape */
 .hero-main-image {
     width: 100%;
     max-width: 800px;
     height: auto;
-    
-    /* This creates the random blob shape */
+    display: block;
+    object-fit: cover;
+
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    
-    /* Translucent border & Glassmorphism Glow */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 60px rgba(255, 255, 255, 0.2),
-                0 30px 60px rgba(0, 0, 0, 0.4);
-                
-    /* Gentle floating animation */
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow:
+        0 0 60px rgba(255,255,255,0.2),
+        0 30px 60px rgba(0,0,0,0.4);
+
     animation: morph 8s ease-in-out infinite;
-    transition: all 0.3s ease;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+.hero-main-image {
+    pointer-events: none;
 }
 
-/* Animation Keyframes (Add this anywhere in CSS) */
 @keyframes morph {
-    0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
     100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
 }
-
-/* Hover effect */
-.hero-main-image:hover {
-    box-shadow: 0 0 80px rgba(255, 255, 255, 0.3),
-                0 40px 80px rgba(0, 0, 0, 0.5);
-}
-
-/* Mobile Adjustment */
-@media (max-width: 968px) {
-    .hero-main-image {
-        max-width: 100%;
-        margin-top: 2rem;
-        animation: none; /* Stops animation on mobile for performance */
+@media (max-width: 768px) {
+    .hero-image-inner {
+        transform: none !important;
     }
 }
 /* ================================
@@ -496,26 +467,17 @@ section {
     padding: 2rem 0;
     position: relative;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); 
 }
 
 .marquee-track {
     display: flex;
-    gap: 2rem;
-    width: max-content;
-    animation: scroll-left 30s linear infinite;
-}
-
-.marquee-wrapper:hover .marquee-track {
-    animation-play-state: paused;
-}
-
-@keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    width: max-content; 
+    will-change: transform;
 }
 
 .uni-card {
+    margin-right: 2rem;
     width: 200px;
     height: 180px;
     background: var(--white);
@@ -528,15 +490,33 @@ section {
     gap: 1rem;
     padding: 1.5rem;
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.uni-logo {
-    font-size: 2.5rem;
-    color: var(--navy-medium);
+
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.marquee-wrapper:hover .marquee-track,
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.uni-logo-img {
+    width: 80px;
+    height: 60px;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(1.1);
+    transition: filter 0.3s ease;
     margin-bottom: 0.5rem;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .uni-name {
@@ -548,10 +528,13 @@ section {
 }
 
 .uni-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) translateZ(0);
     box-shadow: 0 20px 40px rgba(255, 255, 255, 0.25);
     border-color: var(--blue-accent);
-    background: linear-gradient(to bottom right, #ffffff, #f0f7ff);
+}
+
+.uni-card:hover .uni-logo-img {
+    filter: grayscale(0%) brightness(1);
 }
 /* ================================
    ABOUT SECTION
@@ -1079,6 +1062,35 @@ footer {
     color: rgba(255,255,255,0.8);
 }
 
+#scrollTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  background: #1a3a5c; /* Matches your site's primary blue */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: all 0.3s ease;
+  z-index: 999;
+  font-size: 22px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+#scrollTopBtn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+#scrollTopBtn:hover {
+  background: #0d2240;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
 /* ================================
    ANIMATIONS
    ================================ */
