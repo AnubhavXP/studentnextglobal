@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!---Who ever edits this in future i have left you some tags you can use them ---->
 
 <head>
     <meta charset="UTF-8">
@@ -73,7 +74,7 @@
             </div>
         <div class="hero-image" id="heroImage">
   <div class="hero-tilt" id="heroTilt">
-    <img src="assets/images/hero-image%20.png" alt="Hero image" class="hero-main-image">
+    <img src="assets/images/hero-image.jpeg" alt="Hero image" class="hero-main-image">
   </div>
 </div>
         </div>
@@ -87,11 +88,11 @@
 <div class="slideshow-3d-wrap">
     <div class="slideshow-container">
         <div class="slide-track">
-            <img src="assets/images/slide4.png" alt="0" class="slide-clone">
+            <img src="assets/images/slide4.jpeg" alt="0" class="slide-clone">
             <img src="assets/images/slide1.jpeg" alt="1">
-            <img src="assets/images/slide2.png" alt="2">
-            <img src="assets/images/slide3.png" alt="3">
-            <img src="assets/images/slide4.png" alt="4">
+            <img src="assets/images/slide2.jpeg" alt="2">
+            <img src="assets/images/slide3.jpeg" alt="3">
+            <img src="assets/images/slide4.jpeg" alt="4">
             <img src="assets/images/slide1.jpeg" alt="5" class="slide-clone">
         </div>
     </div>
@@ -477,13 +478,14 @@
                         <div class="logo-sub logo-sub-light">GLOBAL</div>
                     </div>
                     <p>Empowering students and institutions to achieve global educational excellence through strategic partnerships and expert guidance.</p>
-                    <div class="social-links">
+                  <!--  <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
+                    </div> 
+                    --->
                 </div>
                 <div class="footer-column">
                     <h4>Quick Links</h4>
@@ -522,6 +524,10 @@
         </div>
     </footer>
     <button id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+    <!-- WhatsApp Button -->
+<a href="https://wa.me/919682334131" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" id="whatsappBtn" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
 
   <script>
       // FormSubmit mail format
@@ -794,7 +800,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     let position = 0;
-    let speed = 0.5; // Adjust for faster/slower
+    let speed = 1.2; // Adjust for faster/slower
     let isPaused = false;
     let animationId;
 
@@ -820,7 +826,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
     animate();
 });
-      
+      //Whatsapp btn 
+      document.addEventListener("DOMContentLoaded", () => {
+  const scrollBtn = document.getElementById("scrollTopBtn");
+  const whatsappBtn = document.getElementById("whatsappBtn");
+  if (!scrollBtn) return;
+
+  window.addEventListener("scroll", () => {
+    const show = window.scrollY > 300;
+    scrollBtn.classList.toggle("show", show);
+    if (whatsappBtn) whatsappBtn.classList.toggle("shifted", show);
+  });
+
+  scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+   // Nav Hamburger
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.querySelector(".mobile-menu");
+  const icon = toggle.querySelector("i");
+  const nav = document.querySelector(".nav-links");
+  if (!toggle || !nav) return;
+
+  toggle.addEventListener("click", () => {
+    const isActive = nav.classList.toggle("nav-active");
+    icon.className = isActive ? "fas fa-times" : "fas fa-bars";
+  });
+
+  nav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("nav-active");
+      icon.className = "fas fa-bars";
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+      nav.classList.remove("nav-active");
+      icon.className = "fas fa-bars";
+    }
+  });
+});
 </script>
 
 
