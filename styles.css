@@ -533,15 +533,34 @@ section {
     animation-play-state: paused;
 }
 
-.uni-logo-img {
+/*.uni-logo-img {
     width: 80px;
-    height: 60px;
+    height: 100%;
     object-fit: contain;
     filter: grayscale(100%) brightness(1.1);
     transition: filter 0.3s ease;
     margin-bottom: 0.5rem;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+} */
+.uni-logo-img {
+    /* ✅ Scales up small logos, but caps wide ones */
+    width: 100%;
+    max-width: 130px;  /* Prevents huge logos from ruining text alignment */
+    height: 70px;      /* Gives small logos enough vertical room to be seen */
+    
+ 
+    object-fit: contain; 
+    
+    /*  Centering and spacing */
+    padding: 0 1rem;
+    box-sizing: border-box;
+    margin: 0 auto 1rem auto; 
+    display: block;
+
+    /* Keep your existing grayscale effect */
+    filter: grayscale(100%) brightness(1.1);
+    transition: filter 0.3s ease;
 }
 
 .uni-name {
@@ -1257,4 +1276,74 @@ footer {
 @keyframes navSlide {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== HOVER INFO PANEL (Slide-Up Effect) ========== */
+.uni-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.uni-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, var(--navy-dark, #1a3a5c), rgba(26, 58, 92, 0.95));
+    color: white;
+    padding: 1rem 0.75rem 0.75rem;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.uni-card:hover .uni-info {
+    transform: translateY(0);
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: infoFade 0.25s ease forwards;
+}
+
+.info-row:nth-child(1) { animation-delay: 0.05s; }
+.info-row:nth-child(2) { animation-delay: 0.1s; }
+.info-row:nth-child(3) { animation-delay: 0.15s; }
+.info-row:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes infoFade {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.info-row i {
+    width: 14px;
+    color: var(--blue-accent, #4da6ff);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+/* Pause marquee on card hover */
+.uni-card:hover {
+    animation-play-state: paused;
+}
+
+.marquee-track:has(.uni-card:hover) {
+    animation-play-state: paused;
+}
+
+/* Mobile: Tap to show info */
+@media (max-width: 768px) {
+    .uni-card:active .uni-info,
+    .uni-card.touch-active .uni-info {
+        transform: translateY(0);
+    }
 }
